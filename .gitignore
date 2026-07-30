@@ -49,9 +49,6 @@ public/test*.php
 public/debug*.php
 public/info*.php
 
-# Vistas obsoletas
-resources/views/prestamos/buscar-global.blade.php
-
 # NO ignorar los logos subidos en public/img/logos/
 !/public/img/logos/
 /public/img/logos/*
