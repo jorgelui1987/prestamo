@@ -4,17 +4,19 @@
 @section('topbar', 'Buscador Global de Préstamos')
 
 @section('content')
-<div class="container-fluid">
+    <h1 class="page-title">Buscador Global</h1>
+    <p class="page-subtitle">Encuentra préstamos por código, cliente, monto o estado.</p>
+
     {{-- Filtros de búsqueda --}}
-    <div class="card mb-4">
+    <div class="card" style="margin-bottom:22px">
         <div class="card-body">
-            <form method="GET" action="{{ route('prestamos.buscar-global') }}" class="row g-3">
-                <div class="col-md-4">
-                    <label class="form-label">Buscar</label>
-                    <input type="text" name="q" class="form-control" value="{{ $q }}" placeholder="Código, cliente, documento, teléfono...">
+            <form method="GET" action="{{ route('prestamos.buscar-global') }}" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:12px;align-items:end">
+                <div>
+                    <label style="display:block;font-size:12px;font-weight:600;color:#64748b;margin-bottom:4px">Buscar</label>
+                    <input type="text" name="q" class="form-control" value="{{ $q }}" placeholder="Código, cliente, documento...">
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label">Tipo</label>
+                <div>
+                    <label style="display:block;font-size:12px;font-weight:600;color:#64748b;margin-bottom:4px">Tipo</label>
                     <select name="tipo" class="form-select">
                         <option value="todo" {{ $tipoBusqueda == 'todo' ? 'selected' : '' }}>Todo</option>
                         <option value="codigo" {{ $tipoBusqueda == 'codigo' ? 'selected' : '' }}>Código</option>
@@ -22,8 +24,8 @@
                         <option value="monto" {{ $tipoBusqueda == 'monto' ? 'selected' : '' }}>Monto</option>
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label">Estado</label>
+                <div>
+                    <label style="display:block;font-size:12px;font-weight:600;color:#64748b;margin-bottom:4px">Estado</label>
                     <select name="estado" class="form-select">
                         <option value="">Todos</option>
                         <option value="activo" {{ $estado == 'activo' ? 'selected' : '' }}>Activo</option>
@@ -32,8 +34,8 @@
                         <option value="anulado" {{ $estado == 'anulado' ? 'selected' : '' }}>Anulado</option>
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label">Cobrador</label>
+                <div>
+                    <label style="display:block;font-size:12px;font-weight:600;color:#64748b;margin-bottom:4px">Cobrador</label>
                     <select name="cobrador_id" class="form-select">
                         <option value="">Todos</option>
                         @foreach ($cobradores as $c)
@@ -41,118 +43,122 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2 d-flex align-items-end">
-                    <button type="submit" class="btn btn-primary w-100">
-                        <i class="bi bi-search"></i> Buscar
-                    </button>
-                </div>
+                <button type="submit" class="btn btn-primary" style="padding:8px 20px">
+                    <i class="bi bi-search"></i> Buscar
+                </button>
             </form>
         </div>
     </div>
 
     {{-- Estadísticas --}}
-    <div class="stats-grid mb-4" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));">
-        <div class="stat-card">
+    <div class="stats-grid" style="grid-template-columns:repeat(5,1fr)">
+        <div class="stat-card bg-blue">
+            <i class="bi bi-cash-stack stat-icon"></i>
+            <div class="stat-label">TOTAL PRÉSTAMOS</div>
             <div class="stat-value">{{ $totalPrestamos }}</div>
-            <div class="stat-label">Total Préstamos</div>
         </div>
-        <div class="stat-card">
-            <div class="stat-value" style="color:var(--success)">{{ $totalActivos }}</div>
-            <div class="stat-label">Activos</div>
+        <div class="stat-card bg-teal">
+            <i class="bi bi-check-circle stat-icon"></i>
+            <div class="stat-label">ACTIVOS</div>
+            <div class="stat-value">{{ $totalActivos }}</div>
         </div>
-        <div class="stat-card">
-            <div class="stat-value" style="color:var(--danger)">{{ $totalMora }}</div>
-            <div class="stat-label">En Mora</div>
+        <div class="stat-card bg-orange">
+            <i class="bi bi-exclamation-triangle stat-icon"></i>
+            <div class="stat-label">EN MORA</div>
+            <div class="stat-value">{{ $totalMora }}</div>
         </div>
-        <div class="stat-card">
-            <div class="stat-value" style="color:var(--info)">{{ $totalPagados }}</div>
-            <div class="stat-label">Pagados</div>
+        <div class="stat-card bg-green">
+            <i class="bi bi-check2-all stat-icon"></i>
+            <div class="stat-label">PAGADOS</div>
+            <div class="stat-value">{{ $totalPagados }}</div>
         </div>
-        <div class="stat-card">
+        <div class="stat-card bg-purple">
+            <i class="bi bi-piggy-bank stat-icon"></i>
+            <div class="stat-label">CAPITAL PENDIENTE</div>
             <div class="stat-value">${{ number_format($capitalPendiente, 0) }}</div>
-            <div class="stat-label">Capital Pendiente</div>
         </div>
     </div>
 
     {{-- Resultados --}}
     @if ($q || $estado || $cobradorId || $fechaDesde || $fechaHasta)
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="mb-0">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin:18px 0 12px">
+            <span style="font-size:14px;color:#64748b">
                 <i class="bi bi-search-heart"></i> 
-                Resultados: <strong>{{ $totalResultados }}</strong> préstamo(s) encontrado(s)
-            </h5>
+                <strong>{{ $totalResultados }}</strong> préstamo(s) encontrado(s)
+            </span>
             <a href="{{ route('prestamos.buscar-global') }}" class="btn btn-sm btn-outline-secondary">
-                <i class="bi bi-x-circle"></i> Limpiar filtros
+                <i class="bi bi-x-circle"></i> Limpiar
             </a>
         </div>
     @endif
 
-    <div class="table-responsive">
-        <table class="table table-hover align-middle">
-            <thead class="table-dark">
-                <tr>
-                    <th>Código</th>
-                    <th>Cliente</th>
-                    <th>Monto</th>
-                    <th>Saldo</th>
-                    <th>Cuotas</th>
-                    <th>Estado</th>
-                    <th>Cobrador</th>
-                    <th>Inicio</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($prestamos as $p)
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle" style="margin:0">
+                <thead class="table-dark">
                     <tr>
-                        <td><strong>{{ $p->codigo }}</strong></td>
-                        <td>
-                            <a href="{{ route('clientes.edit', $p->cliente) }}" class="text-decoration-none">
-                                {{ $p->cliente->nombres }} {{ $p->cliente->apellidos }}
-                            </a>
-                            <br><small class="text-muted">{{ $p->cliente->documento }}</small>
-                        </td>
-                        <td>${{ number_format($p->monto, 0) }}</td>
-                        <td>${{ number_format($p->saldo, 0) }}</td>
-                        <td>{{ $p->cuotas_count ?? $p->cuotas->count() }}</td>
-                        <td>
-                            @php
-                                $badge = match($p->estado) {
-                                    'activo' => 'bg-success',
-                                    'mora' => 'bg-danger',
-                                    'pagado' => 'bg-info',
-                                    'anulado' => 'bg-secondary',
-                                    default => 'bg-warning'
-                                };
-                            @endphp
-                            <span class="badge {{ $badge }}">{{ ucfirst($p->estado) }}</span>
-                        </td>
-                        <td>{{ $p->cobrador?->name ?? '—' }}</td>
-                        <td>{{ $p->fecha_inicio->format('d/m/Y') }}</td>
-                        <td>
-                            <a href="{{ route('prestamos.show', $p) }}" class="btn btn-sm btn-outline-primary">
-                                <i class="bi bi-eye"></i>
-                            </a>
-                        </td>
+                        <th>Código</th>
+                        <th>Cliente</th>
+                        <th>Monto</th>
+                        <th>Saldo</th>
+                        <th>Cuotas</th>
+                        <th>Estado</th>
+                        <th>Cobrador</th>
+                        <th>Inicio</th>
+                        <th></th>
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="9" class="text-center py-4 text-muted">
-                            <i class="bi bi-inbox" style="font-size:2rem"></i><br>
-                            @if ($q || $estado || $cobradorId || $fechaDesde || $fechaHasta)
-                                No se encontraron préstamos con esos filtros.
-                            @else
-                                Ingresa un término de búsqueda para comenzar.
-                            @endif
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @forelse ($prestamos as $p)
+                        <tr>
+                            <td><strong>{{ $p->codigo }}</strong></td>
+                            <td>
+                                <a href="{{ route('clientes.edit', $p->cliente) }}" class="text-decoration-none">
+                                    {{ $p->cliente->nombres }} {{ $p->cliente->apellidos }}
+                                </a>
+                                <br><small class="text-muted">{{ $p->cliente->documento }}</small>
+                            </td>
+                            <td>${{ number_format($p->monto, 0) }}</td>
+                            <td>${{ number_format($p->saldo, 0) }}</td>
+                            <td>{{ $p->cuotas_count ?? $p->cuotas->count() }}</td>
+                            <td>
+                                @php
+                                    $badge = match($p->estado) {
+                                        'activo' => 'bg-success',
+                                        'mora' => 'bg-danger',
+                                        'pagado' => 'bg-info',
+                                        'anulado' => 'bg-secondary',
+                                        default => 'bg-warning'
+                                    };
+                                @endphp
+                                <span class="badge {{ $badge }}">{{ ucfirst($p->estado) }}</span>
+                            </td>
+                            <td>{{ $p->cobrador?->name ?? '—' }}</td>
+                            <td>{{ $p->fecha_inicio->format('d/m/Y') }}</td>
+                            <td>
+                                <a href="{{ route('prestamos.show', $p) }}" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="9" class="text-center py-4 text-muted">
+                                <i class="bi bi-inbox" style="font-size:2rem;display:block;margin-bottom:8px"></i>
+                                @if ($q || $estado || $cobradorId || $fechaDesde || $fechaHasta)
+                                    No se encontraron préstamos con esos filtros.
+                                @else
+                                    Ingresa un término de búsqueda para comenzar.
+                                @endif
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <div class="d-flex justify-content-center mt-3">
+    <div style="display:flex;justify-content:center;margin-top:18px">
         {{ $prestamos->links() }}
     </div>
-</div>
 @endsection
