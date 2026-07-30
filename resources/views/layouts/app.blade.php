@@ -52,7 +52,6 @@
                         ['prestamos.index', 'Préstamos', 'bi-cash-stack', ['admin','gerente','operador','cobrador']],
                         ['prestamos.buscar-global', 'Buscar Préstamo', 'bi-search-heart', ['admin','gerente','operador','cobrador']],
                         ['cobranzas.index', 'Cobranzas', 'bi-wallet2', ['admin','gerente','operador','cobrador']],
-                        ['cobranzas.tarjeta', 'Tarjeta Abonos', 'bi-card-list', ['admin','gerente','operador','cobrador']],
                         ['pagos.index', 'Pagos / Cuotas', 'bi-credit-card-2-front', ['admin','gerente','operador','cobrador']],
                         ['mora.index', 'Mora', 'bi-exclamation-triangle-fill', ['admin','gerente','operador','cobrador']],
                         ['empenos.index', 'Empeños', 'bi-gem', ['admin','gerente','operador']],

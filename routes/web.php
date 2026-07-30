@@ -111,7 +111,6 @@ Route::middleware('auth')->group(function () {
         // Cobranzas y Mora
         Route::get('/cobranzas', [CobranzaController::class, 'index'])->name('cobranzas.index');
         Route::get('/mora', [CobranzaController::class, 'mora'])->name('mora.index');
-        Route::get('/cobranzas/tarjeta', [CobranzaController::class, 'tarjeta'])->name('cobranzas.tarjeta');
     });
 
     // Caja (Excluido el cobrador)

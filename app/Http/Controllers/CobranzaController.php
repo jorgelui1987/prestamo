@@ -102,9 +102,4 @@ class CobranzaController extends Controller
         return view('cobranzas.mora', compact('cuotas', 'buscar', 'resumen'));
     }
 
-    /** Vista de Tarjeta de Abonos (física, para imprimir) */
-    public function tarjeta()
-    {
-        return view('cobranzas.tarjeta');
-    }
 }
