@@ -9,7 +9,7 @@
 
     {{-- Filtros de búsqueda --}}
     <div class="card" style="margin-bottom:22px">
-        <div class="card-body">
+        <div class="card__body" style="padding:20px">
             <form method="GET" action="{{ route('prestamos.buscar-global') }}" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:12px;align-items:end">
                 <div>
                     <label style="display:block;font-size:12px;font-weight:600;color:#64748b;margin-bottom:4px">Buscar</label>
@@ -17,7 +17,7 @@
                 </div>
                 <div>
                     <label style="display:block;font-size:12px;font-weight:600;color:#64748b;margin-bottom:4px">Tipo</label>
-                    <select name="tipo" class="form-select">
+                    <select name="tipo" class="form-control" style="padding:8px 12px;border-radius:8px;border:1px solid #cbd5e1;width:100%">
                         <option value="todo" {{ $tipoBusqueda == 'todo' ? 'selected' : '' }}>Todo</option>
                         <option value="codigo" {{ $tipoBusqueda == 'codigo' ? 'selected' : '' }}>Código</option>
                         <option value="cliente" {{ $tipoBusqueda == 'cliente' ? 'selected' : '' }}>Cliente</option>
@@ -26,7 +26,7 @@
                 </div>
                 <div>
                     <label style="display:block;font-size:12px;font-weight:600;color:#64748b;margin-bottom:4px">Estado</label>
-                    <select name="estado" class="form-select">
+                    <select name="estado" class="form-control" style="padding:8px 12px;border-radius:8px;border:1px solid #cbd5e1;width:100%">
                         <option value="">Todos</option>
                         <option value="activo" {{ $estado == 'activo' ? 'selected' : '' }}>Activo</option>
                         <option value="mora" {{ $estado == 'mora' ? 'selected' : '' }}>Mora</option>
@@ -36,7 +36,7 @@
                 </div>
                 <div>
                     <label style="display:block;font-size:12px;font-weight:600;color:#64748b;margin-bottom:4px">Cobrador</label>
-                    <select name="cobrador_id" class="form-select">
+                    <select name="cobrador_id" class="form-control" style="padding:8px 12px;border-radius:8px;border:1px solid #cbd5e1;width:100%">
                         <option value="">Todos</option>
                         @foreach ($cobradores as $c)
                             <option value="{{ $c->id }}" {{ $cobradorId == $c->id ? 'selected' : '' }}>{{ $c->name }}</option>
@@ -67,7 +67,7 @@
             <div class="stat-label">EN MORA</div>
             <div class="stat-value">{{ $totalMora }}</div>
         </div>
-        <div class="stat-card bg-green">
+        <div class="stat-card bg-cyan">
             <i class="bi bi-check2-all stat-icon"></i>
             <div class="stat-label">PAGADOS</div>
             <div class="stat-value">{{ $totalPagados }}</div>
@@ -93,9 +93,9 @@
     @endif
 
     <div class="card">
-        <div class="table-responsive">
-            <table class="table table-hover align-middle" style="margin:0">
-                <thead class="table-dark">
+        <div class="table-wrap">
+            <table class="data">
+                <thead>
                     <tr>
                         <th>Código</th>
                         <th>Cliente</th>
@@ -105,7 +105,7 @@
                         <th>Estado</th>
                         <th>Cobrador</th>
                         <th>Inicio</th>
-                        <th></th>
+                        <th style="width:50px"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -116,7 +116,7 @@
                                 <a href="{{ route('clientes.edit', $p->cliente) }}" class="text-decoration-none">
                                     {{ $p->cliente->nombres }} {{ $p->cliente->apellidos }}
                                 </a>
-                                <br><small class="text-muted">{{ $p->cliente->documento }}</small>
+                                <br><small style="color:#94a3b8">{{ $p->cliente->documento }}</small>
                             </td>
                             <td>${{ number_format($p->monto, 0) }}</td>
                             <td>${{ number_format($p->saldo, 0) }}</td>
@@ -124,26 +124,26 @@
                             <td>
                                 @php
                                     $badge = match($p->estado) {
-                                        'activo' => 'bg-success',
-                                        'mora' => 'bg-danger',
-                                        'pagado' => 'bg-info',
-                                        'anulado' => 'bg-secondary',
-                                        default => 'bg-warning'
+                                        'activo' => 'b-green',
+                                        'mora' => 'b-red',
+                                        'pagado' => 'b-blue',
+                                        'anulado' => 'b-gray',
+                                        default => 'b-yellow'
                                     };
                                 @endphp
-                                <span class="badge {{ $badge }}">{{ ucfirst($p->estado) }}</span>
+                                <span class="badge-pill {{ $badge }}">{{ ucfirst($p->estado) }}</span>
                             </td>
                             <td>{{ $p->cobrador?->name ?? '—' }}</td>
-                            <td>{{ $p->fecha_inicio->format('d/m/Y') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($p->fecha_inicio)->format('d/m/Y') }}</td>
                             <td>
-                                <a href="{{ route('prestamos.show', $p) }}" class="btn btn-sm btn-outline-primary">
+                                <a href="{{ route('prestamos.show', $p) }}" class="btn btn-sm btn-outline-primary" style="padding:4px 8px;font-size:13px">
                                     <i class="bi bi-eye"></i>
                                 </a>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="9" class="text-center py-4 text-muted">
+                            <td colspan="9" style="text-align:center;padding:40px 20px;color:#94a3b8">
                                 <i class="bi bi-inbox" style="font-size:2rem;display:block;margin-bottom:8px"></i>
                                 @if ($q || $estado || $cobradorId || $fechaDesde || $fechaHasta)
                                     No se encontraron préstamos con esos filtros.
