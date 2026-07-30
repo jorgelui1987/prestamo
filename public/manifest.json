@@ -1,0 +1,28 @@
+{
+  "short_name": "Tecnicell",
+  "name": "Tecnicell Cobranzas",
+  "description": "App de cobranza móvil para gestionar tu ruta diaria de cobros",
+  "icons": [
+    {
+      "src": "/img/icons/icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/img/icons/icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/movil",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/movil",
+  "categories": ["finance", "business"],
+  "lang": "es-PE",
+  "dir": "ltr"
+}

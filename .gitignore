@@ -1,0 +1,77 @@
+/vendor
+/node_modules
+/public/build
+/public/storage
+/storage/*.key
+/storage/pail
+.env
+.env.backup
+.env.production
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+auth.json
+npm-debug.log
+yarn-error.log
+/.fleet
+/.idea
+/.vscode
+
+# ============================================
+# SEGURIDAD: Archivos vulnerables / backups
+# ============================================
+*.sql
+*.ps1
+*.bat
+*.zip
+*.pdf
+*.csv
+__restore_all_config.php
+update_superadmin.php
+Documentacion_Sistema_Prestamos_Pro.pdf
+README - copia.md
+README - copia (2).md
+ftp_test_script.txt
+env
+prestamo_completo.zip
+prestamo.zip
+backup*.zip
+backup*.sql
+*.log
+
+# Scripts de diagnostico y migracion (peligrosos en produccion)
+public/check_logo.php
+public/migrar_logo.php
+public/generar_enlace.php
+public/migrar.php
+public/plantilla_clientes.csv
+public/test*.php
+public/debug*.php
+public/info*.php
+
+# Vistas obsoletas
+resources/views/prestamos/buscar-global.blade.php
+
+# NO ignorar los logos subidos en public/img/logos/
+!/public/img/logos/
+/public/img/logos/*
+!/public/img/logos/*.png
+!/public/img/logos/*.jpg
+!/public/img/logos/*.jpeg
+!/public/img/logos/*.webp
+
+# Ignorar el resto de PNGs (esta regla NO afecta a public/img/logos/)
+*.png
+
+# Codigo duplicado dentro de public/
+/public/app/
+/public/bootstrap/
+/public/config/
+/public/database/
+/public/.vscode/
+/public/dompdf/
+/public/tcpdf/
+/public/mpdf/
+
+# Backup completo del proyecto
+/prestamo_completo/

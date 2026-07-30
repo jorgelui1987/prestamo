@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    environment:
+      - APP_NAME=Sistema de Prestamos Pro
+      - APP_ENV=production
+      # APP_KEY FIJO - NO CAMBIAR o se invalidarán todas las sesiones activas
+      - APP_KEY=base64:xnEF34C3x4IXvThZT77bxxGeLmtdsOmEYJmjPNYN3E8=
+      - APP_DEBUG=false
+      - APP_URL=https://tallerluitech.fun
+      - DB_CONNECTION=mysql
+      - DB_HOST=prestamos-poyecto-2zr8c2
+      - DB_PORT=3306
+      - DB_DATABASE=chile
+      - DB_USERNAME=chile
+      - DB_PASSWORD=Castro161219@
+      - SESSION_DRIVER=database
+      - CACHE_STORE=database
+      - QUEUE_CONNECTION=database
+      - RUN_MIGRATIONS=true
+    restart: always

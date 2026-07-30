@@ -1,0 +1,70 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # ============================================
+    # SEGURIDAD: Bloquear acceso a archivos sensibles
+    # ============================================
+    
+    # Bloquear acceso a .env, .git, composer.json, etc.
+    RewriteRule ^(\.env|\.git|composer\.json|composer\.lock|artisan)$ - [F,L]
+    
+    # Bloquear acceso a scripts PHP en la raiz que no sean index.php
+    RewriteCond %{REQUEST_URI} !^/index\.php
+    RewriteCond %{REQUEST_URI} \.php$
+    RewriteRule ^ - [F,L]
+    
+    # Bloquear acceso a archivos de backup, sql, zip, log
+    RewriteCond %{REQUEST_URI} \.(sql|zip|log|bak|old|md|pdf|csv|ps1|bat|sh)$ [NC]
+    RewriteRule ^ - [F,L]
+
+    # Ensure /storage/* requests that don't exist as files go to Laravel
+    RewriteCond %{REQUEST_URI} ^/storage/
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# ============================================
+# SEGURIDAD: Headers de seguridad
+# ============================================
+<IfModule mod_headers.c>
+    # Proteger contra clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+    # Proteger contra MIME-type sniffing
+    Header always set X-Content-Type-Options "nosniff"
+    # Forzar HTTPS
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    # Bloquear acceso a recursos de terceros no confiables
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# ============================================
+# SEGURIDAD: Deshabilitar listado de directorios
+# ============================================
+Options -Indexes
+
+# ============================================
+# SEGURIDAD: Proteger archivos de configuracion
+# ============================================
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+<FilesMatch "(artisan|composer\.json|composer\.lock|\.env)">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
