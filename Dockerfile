@@ -22,6 +22,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 
 # Copy application files
+# BUILD_TIMESTAMP: 2026-07-30-01
 COPY . .
 
 # Install PHP dependencies
