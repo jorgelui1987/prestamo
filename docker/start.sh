@@ -110,4 +110,4 @@ echo "=========================================="
 echo "Starting server..."
 echo "=========================================="
 
-exec php /var/www/html/artisan serve --host=0.0.0.0 --port=80
+exec php /var/www/html/artisan serve --host=0.0.0.0 --port=8000
